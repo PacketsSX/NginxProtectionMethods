@@ -1,0 +1,13 @@
+http {
+
+    #each "zone" will have a max of 10megabytes while allowing only up to 3 requests per second. this specifies the zone and its parameters.
+    
+    limit_req_zone $binary_remote_addr zone=one:10m rate=3r/s;
+
+    server {
+
+        location /index* { #assigning which parts of the website force this ratelimiting rule, in this case the index page.
+            limit_req zone=one;
+        }
+    }
+}
